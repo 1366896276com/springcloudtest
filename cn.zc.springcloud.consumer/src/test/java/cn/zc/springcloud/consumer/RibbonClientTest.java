@@ -27,12 +27,24 @@ public class RibbonClientTest {
 				.getNamedLoadBalancer("myclient");
 		// use RandomRule 's RandomRule algorithm to get a random server from lb
 		// 's server list
-		RandomRule randomRule = new RandomRule();
-		Server randomAlgorithmServer = randomRule.choose(lb, null);
-		logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		logger.debug("random algorithm server host:" + randomAlgorithmServer.getHost() + ";port:"
-				+ randomAlgorithmServer.getPort());
-		logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		for(int i=0;i<1000;i++){
+			RandomRule randomRule = new RandomRule();
+			Server randomAlgorithmServer = randomRule.choose(lb, null);
+			logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+			logger.debug("random algorithm server host:" + randomAlgorithmServer.getHost());
+			logger.debug("port:" + randomAlgorithmServer.getPort());
+			logger.debug("isAlive:" + randomAlgorithmServer.isAlive());
+			
+			logger.debug("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				break;
+			}
+		}
+		
 
 		// Un register from eureka.
 		DiscoveryManager.getInstance().shutdownComponent();
